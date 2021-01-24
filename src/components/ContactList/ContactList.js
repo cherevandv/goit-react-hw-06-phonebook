@@ -1,20 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
 import actions from '../../redux/actions';
+import { getVisiblesContacts } from '../../redux/selectors';
 import './ContactList.module.css';
 
 export default function ContactList() {
-  const contactsBook = useSelector(({ contacts: { items, filter } }) =>
-    getVisiblesContacts(items, filter),
-  );
+  const contactsBook = useSelector(getVisiblesContacts);
 
   const dispatch = useDispatch();
-
-  function getVisiblesContacts(allContacts, filter) {
-    const normalizeFilter = filter.toLowerCase();
-    return allContacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizeFilter),
-    );
-  }
 
   return (
     <ul>
