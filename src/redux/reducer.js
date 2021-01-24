@@ -9,13 +9,6 @@ const initialData = [
   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 ];
 
-// const initialState = {
-//   contacts: {
-//     items: initialData,
-//     filter: '',
-//   },
-// };
-
 const itemsReducer = createReducer(initialData, {
   [actions.addContact]: (state, { payload }) => [...state, payload],
   [actions.deleteContact]: (state, { payload }) =>

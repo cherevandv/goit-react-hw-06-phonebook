@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import actions from '../../redux/actions';
-import PropTypes from 'prop-types';
 import s from './ContactForm.module.css';
 
-function ContactForm({ contacts, onSubmit }) {
+export default function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+
+  const contactsBook = useSelector(state => state.contacts.items);
+  const dispatch = useDispatch();
 
   const handleInputChange = e => {
     const { name, value } = e.currentTarget;
@@ -31,11 +33,12 @@ function ContactForm({ contacts, onSubmit }) {
       formReset();
       return alert(`${name} is already in contacts.`);
     }
-    onSubmit({ name, number });
+    dispatch(actions.addContact({ name, number }));
+    // onSubmit({ name, number });
     formReset();
   };
   const findSameName = name => {
-    return contacts.find(
+    return contactsBook.find(
       contact => contact.name.toLowerCase() === name.toLowerCase(),
     );
   };
@@ -74,18 +77,18 @@ function ContactForm({ contacts, onSubmit }) {
   );
 }
 
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
+// ContactForm.propTypes = {
+//   onSubmit: PropTypes.func.isRequired,
+// };
 
-const mapStateToProps = state => ({
-  contacts: state.contacts.items,
-});
+// const mapStateToProps = state => ({
+//   contacts: state.contacts.items,
+// });
 
-const mapDispatchToProps = dispatch => ({
-  onSubmit: (name, number) => {
-    return dispatch(actions.addContact(name, number));
-  },
-});
+// const mapDispatchToProps = dispatch => ({
+//   onSubmit: (name, number) => {
+//     return dispatch(actions.addContact(name, number));
+//   },
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+// export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
